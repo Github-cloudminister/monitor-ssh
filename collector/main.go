@@ -16,6 +16,7 @@ import (
 	"github.com/dhamith93/SyMon/internal/config"
 	"github.com/dhamith93/SyMon/internal/database"
 	"github.com/dhamith93/SyMon/internal/logger"
+	"github.com/joho/godotenv"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/credentials"
@@ -24,6 +25,8 @@ import (
 )
 
 func main() {
+	godotenv.Load(".env-example")
+
 	var removeAgentVal string
 	var alertConfig []alerts.AlertConfig
 	initPtr := flag.Bool("init", false, "Initialize the collector")
