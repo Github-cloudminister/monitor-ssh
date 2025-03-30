@@ -7,7 +7,6 @@ import (
 	"encoding/json"
 	"flag"
 	"fmt"
-	"io/ioutil"
 	"log"
 	"os"
 	"strconv"
@@ -20,6 +19,7 @@ import (
 	"github.com/dhamith93/SyMon/internal/logger"
 	"github.com/dhamith93/SyMon/internal/monitor"
 	"github.com/dhamith93/systats"
+	"github.com/joho/godotenv"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials"
 	"google.golang.org/grpc/credentials/insecure"
@@ -27,6 +27,7 @@ import (
 )
 
 func main() {
+	godotenv.Load(".env-example")
 	config := config.GetAgent()
 
 	if config.LogFileEnabled {
@@ -209,7 +210,7 @@ func createClient(config *config.Agent) (*grpc.ClientConn, api.MonitorDataServic
 }
 
 func loadTLSCreds(config *config.Agent) (credentials.TransportCredentials, error) {
-	cert, err := ioutil.ReadFile(config.CollectorEndpointCACertPath)
+	cert, err := os.ReadFile(config.CollectorEndpointCACertPath)
 	if err != nil {
 		return nil, err
 	}
